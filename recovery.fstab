@@ -1,15 +1,15 @@
-# mount point       fstype    device                                                                flags
-/system             ext4      system                                                                flags=display="System";backup=1;logical;
-/system_image       emmc      system                                                                flags=display="System image";backup=1;flashimg=1;logical;
-/vendor             ext4      vendor                                                                flags=display="Vendor";backup=1;logical;
-/vendor_image       emmc      vendor                                                                flags=display="Vendor image";backup=1;flashimg=1;logical;
-/product            ext4      product                                                               flags=display="Product";backup=1;logical;
-/product_image      emmc      product                                                               flags=display="Product image";backup=1;flashimg=1;logical;
-/metadata           ext4      /dev/block/by-name/metadata                                           flags=display="Metadata";
-/data               f2fs      /dev/block/bootdevice/by-name/userdata                                flags=display="Data";
-/sdcard1            vfat      /dev/block/mmcblk1p1                                                  flags=display="Sdcard1";
-/boot               emmc      /dev/block/bootdevice/by-name/boot                                    flags=display="Boot";backup=1;flashimg=1;
-/misc               emmc      /dev/block/bootdevice/by-name/misc                                    flags=display="Misc";backup=1;flashimg=1;
-/op2                ext4      /dev/block/bootdevice/by-name/op2                                     flags=display="Op2";
-/persist            ext4      /dev/block/bootdevice/by-name/persist                                 flags=display="Persist";
-/persist_image      emmc      /dev/block/bootdevice/by-name/persist                                 flags=display="Persist image";backup=1;flashimg=1;
+#<src>                  <mnt_point>    <type>  <mnt_flags and options>   <fs_mgr_flags>
+# Logical partitions
+system                  /system        ext4    ro,barrier=1,discard      wait,slotselect
+system_ext              /system_ext    ext4    ro,barrier=1,discard      wait,slotselect
+product                 /product       ext4    ro,barrier=1,discard      wait,slotselect
+vendor                  /vendor        ext4    ro,barrier=1,discard      wait,slotselect
+odm                     /odm           ext4    ro,barrier=1,discard      wait,slotselect
+
+# Userdata partition
+/dev/block/bootdevice/by-name/userdata                  /data                  f2fs    noatime,nosuid,nodev,discard,reserve_root=32768,resgid=1065,fsync_mode=nobarrier,inlinecrypt                        latemount,wait,check,formattable,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0,metadata_encryption=aes-256-xts:wrappedkey_v0,keydirectory=/metadata/vold/metadata_encryption,quota,reservedsize=128M,sysfs_path=/sys/devices/platform/soc/1d84000.ufshc,checkpoint=fs
+# Need to have this entry in here even though the mount point itself is no longer needed.
+# The update_engine code looks for this entry in order to determine the boot device address
+# and fails if it does not find it.
+/dev/block/bootdevice/by-name/misc    /misc   emmc    defaults           defaults
+
