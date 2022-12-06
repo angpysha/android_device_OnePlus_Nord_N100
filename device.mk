@@ -18,11 +18,19 @@
 
 LOCAL_PATH := device/oneplus/OnePlusN100
 
+AB_OTA_UPDATER := true
+
+# Inherit from virtual AB OTA config
+ENABLE_VIRTUAL_AB := true
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
+
 # A/B
 AB_OTA_PARTITIONS += \
     boot \
     system \
-    vendor
+    system_ext \
+    vendor \
+    vbmeta
 
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
@@ -50,3 +58,16 @@ PRODUCT_PACKAGES += \
     update_engine \
     update_verifier \
     update_engine_sideload
+
+# tell update_engine to not change dynamic partition table during updates
+# needed since our qti_dynamic_partitions does not include
+# vendor and odm and we also dont want to AB update them
+TARGET_ENFORCE_AB_OTA_PARTITION_LIST := true
+
+# Dynamic partitions
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+
+# qcom decryption
+PRODUCT_PACKAGES_ENG += \
+    qcom_decrypt \
+    qcom_decrypt_fbe
