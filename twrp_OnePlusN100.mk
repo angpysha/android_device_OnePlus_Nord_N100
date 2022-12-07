@@ -31,7 +31,7 @@ $(call inherit-product, vendor/omni/config/gsm.mk)
 
 # Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := OnePlusN100
-PRODUCT_NAME := omni_OnePlusN100
+PRODUCT_NAME := twrp_OnePlusN100
 PRODUCT_BRAND := OnePlus
 PRODUCT_MODEL := OnePlus
 PRODUCT_MANUFACTURER := oneplus
