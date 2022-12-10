@@ -133,7 +133,8 @@ TARGET_RECOVERY_DEVICE_MODULES += \
     libcap \
     libion \
     libpcrecpp \
-    libxml2
+    libxml2 
+
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
 
 # Use mke2fs to create ext4 images
@@ -179,7 +180,9 @@ TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libcap.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/libpcrecpp.so \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so
+    $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so 
+
+TW_EXCLUDE_ENCRYPTED_BACKUPS := false
 
 
 # TWRP Debug Flags
