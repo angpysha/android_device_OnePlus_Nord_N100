@@ -168,8 +168,8 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.
 TW_THEME := portrait_hdpi
 TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
 TW_DEFAULT_BRIGHTNESS := 420
-TW_Y_OFFSET := 104
-TW_H_OFFSET := -104
+#TW_Y_OFFSET := 104
+#TW_H_OFFSET := -104
 TW_EXCLUDE_DEFAULT_USB_INIT := true
 TW_EXCLUDE_ENCRYPTED_BACKUPS := true
 TW_EXCLUDE_TWRPAPP := true
@@ -194,7 +194,8 @@ TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so 
 
 TW_EXCLUDE_ENCRYPTED_BACKUPS := false
-
+TW_NO_SCREEN_BLANK := true
+RECOVERY_SDCARD_ON_DATA := true
 
 # TWRP Debug Flags
 TARGET_USES_LOGD := true

@@ -67,3 +67,4 @@ on fs
 
 on boot
     write /proc/touchpanel/gesture_enable 1
+import /init.recovery.qcom_decrypt.rc
