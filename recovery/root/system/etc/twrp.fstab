@@ -1,23 +1,27 @@
 # mount point	fstype		device	device2					flags
 # Logical partitions
-/dev/block/dm-6 / ext4 ro,seclabel,nodev,relatime,discard,errors=remount-ro 0 0
-/dev/block/dm-7 /vendor ext4 ro,seclabel,relatime,discard 0 0
-/dev/block/dm-8 /data f2fs rw,lazytime,seclabel,nosuid,nodev,noatime,background_gc=on,discard,no_heap,user_xattr,inline_xattr,acl,inline_data,inline_dentry,extent_cache,mode=adaptive,active_logs=6,reserve_root=22871,resuid=0,resgid=1065,alloc_mode=default,fsync_mode=nobarrier 0 0
-/dev/block/dm-8 /data/user/0 f2fs rw,lazytime,seclabel,nosuid,nodev,noatime,background_gc=on,discard,no_heap,user_xattr,inline_xattr,acl,inline_data,inline_dentry,extent_cache,mode=adaptive,active_logs=6,reserve_root=22871,resuid=0,resgid=1065,alloc_mode=default,fsync_mode=nobarrier 0 0
-/system_a	 ext4	   /dev/block/mapper/system_a						flags=slotselect;removable
-/system_b	 ext4	   /dev/block/mapper/system_b						flags=slotselect;removable
+#/dev/block/dm-6 / ext4 ro,seclabel,nodev,relatime,discard,errors=remount-ro 0 0
+#/dev/block/dm-7 /vendor ext4 ro,seclabel,relatime,discard 0 0
+#/dev/block/dm-8 /data f2fs rw,lazytime,seclabel,nosuid,nodev,noatime,background_gc=on,discard,no_heap,user_xattr,inline_xattr,acl,inline_data,inline_dentry,extent_cache,mode=adaptive,active_logs=6,reserve_root=22871,resuid=0,resgid=1065,alloc_mode=default,fsync_mode=nobarrier 0 0
+#/dev/block/dm-8 /data/user/0 f2fs rw,lazytime,seclabel,nosuid,nodev,noatime,background_gc=on,discard,no_heap,user_xattr,inline_xattr,acl,inline_data,inline_dentry,extent_cache,mode=adaptive,active_logs=6,reserve_root=22871,resuid=0,resgid=1065,alloc_mode=default,fsync_mode=nobarrier 0 0
+#/system_a	 ext4	   /dev/block/mapper/system_a						flags=slotselect;removable
+#/system_b	 ext4	   /dev/block/mapper/system_b						flags=slotselect;removable
+#/system_ext	ext4	  /dev/block/mapper/system_ext						flags=slotselect;removable
+#/vendor_a	 ext4	    /dev/block/mapper/vendor_a						flags=slotselect;removable
+#/vendor_b	 ext4	    /dev/block/mapper/vendor_b						flags=slotselect;removable
+#/product_a	ext4   	/dev/block/mapper/product_a						flags=slotselect;removable
+#/product_b	ext4   	/dev/block/mapper/product_b						flags=slotselect;removable
+/system	 ext4	   /dev/block/mapper/system						flags=slotselect;removable
 /system_ext	ext4	  /dev/block/mapper/system_ext						flags=slotselect;removable
-/vendor_a	 ext4	    /dev/block/mapper/vendor_a						flags=slotselect;removable
-/vendor_b	 ext4	    /dev/block/mapper/vendor_b						flags=slotselect;removable
-/product_a	ext4   	/dev/block/mapper/product_a						flags=slotselect;removable
-/product_b	ext4   	/dev/block/mapper/product_b						flags=slotselect;removable
+/vendor	 ext4	    /dev/block/mapper/vendor						flags=slotselect;removable
+/product	ext4   	/dev/block/mapper/product						flags=slotselect;removable
 /odm	ext4   	/dev/block/mapper/odm						flags=slotselect;removable
 
 # Physical partitions
 /metadata	ext4		/dev/block/bootdevice/by-name/metadata		flags=backup=1;display="Metadata"
 /boot		emmc		/dev/block/bootdevice/by-name/boot		flags=slotselect;backup=1;display="Boot";flashimg=1
 /recovery	emmc		/dev/block/bootdevice/by-name/recovery		flags=slotselect;backup=1;display="Recovery";flashimg=1
-/data		f2fs		/dev/block/bootdevice/by-name/userdata		flags=fileencryption=ice:aes-256-cts;wrappedkey;keydirectory=/metadata/vold/metadata_encryption
+/data		f2fs		/dev/block/bootdevice/by-name/userdata		noatime,nosuid,nodev,discard,reserve_root=32768,resgid=1065,fsync_mode=nobarrier  latemount,wait,check,formattable,quota,reservedsize=128M,fileencryption=ice,wrappedkey,keydirectory=/metadata/vold/metadata_encryption,checkpoint=fs
 /firmware	vfat		/dev/block/bootdevice/by-name/modem		flags=slotselect;display="Firmware";mounttodecrypt;fsflags=ro
 /misc		emmc		/dev/block/bootdevice/by-name/misc
 /modem		emmc		/dev/block/bootdevice/by-name/modem		flags=slotselect;backup=1;display="Modem"
