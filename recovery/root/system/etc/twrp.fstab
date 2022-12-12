@@ -1,5 +1,9 @@
 # mount point	fstype		device	device2					flags
 # Logical partitions
+/dev/block/dm-6 / ext4 ro,seclabel,nodev,relatime,discard,errors=remount-ro 0 0
+/dev/block/dm-7 /vendor ext4 ro,seclabel,relatime,discard 0 0
+/dev/block/dm-8 /data f2fs rw,lazytime,seclabel,nosuid,nodev,noatime,background_gc=on,discard,no_heap,user_xattr,inline_xattr,acl,inline_data,inline_dentry,extent_cache,mode=adaptive,active_logs=6,reserve_root=22871,resuid=0,resgid=1065,alloc_mode=default,fsync_mode=nobarrier 0 0
+/dev/block/dm-8 /data/user/0 f2fs rw,lazytime,seclabel,nosuid,nodev,noatime,background_gc=on,discard,no_heap,user_xattr,inline_xattr,acl,inline_data,inline_dentry,extent_cache,mode=adaptive,active_logs=6,reserve_root=22871,resuid=0,resgid=1065,alloc_mode=default,fsync_mode=nobarrier 0 0
 /system_a	 ext4	   /dev/block/mapper/system_a						flags=slotselect;removable
 /system_b	 ext4	   /dev/block/mapper/system_b						flags=slotselect;removable
 /system_ext	ext4	  /dev/block/mapper/system_ext						flags=slotselect;removable
