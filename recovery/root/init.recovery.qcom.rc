@@ -25,6 +25,9 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+import /init.recovery.qcom_decrypt.rc
+import /tee.rc
+import /trustonic.rc
 
 on init
     write /sys/class/backlight/panel0-backlight/brightness 200
@@ -68,8 +71,6 @@ on fs
 
 on boot
     write /proc/touchpanel/gesture_enable 1
-
-import /init.recovery.qcom_decrypt.rc
 
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
@@ -204,3 +205,5 @@ on property:vendor.sys.listeners.registered=true
 
 on property:sys.usb.config=mtp,adb
     restart time_daemon
+
+
