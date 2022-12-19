@@ -90,6 +90,13 @@ on fs
 on early-fs
     start vold
 
+on late-fs
+    # Wait for keymaster
+    exec_start wait_for_keymaster
+
+    # Mount RW partitions which need run fsck
+    mount_all /vendor/etc/fstab.qcom --late
+
 service sbinqseecomd /sbin/qseecomd
     user root
     group root
