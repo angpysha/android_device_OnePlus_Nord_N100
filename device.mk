@@ -20,9 +20,6 @@ LOCAL_PATH := device/oneplus/OnePlusN100
 
 AB_OTA_UPDATER := true
 
-# Inherit from virtual AB OTA config
-#ENABLE_VIRTUAL_AB := true
-#$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
 
 # A/B
 AB_OTA_PARTITIONS += \
@@ -61,7 +58,7 @@ PRODUCT_PACKAGES += \
 TARGET_ENFORCE_AB_OTA_PARTITION_LIST := true
 
 # Dynamic partitions
-#PRODUCT_USE_DYNAMIC_PARTITIONS := true
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
 # qcom decryption
 PRODUCT_PACKAGES_ENG += \
