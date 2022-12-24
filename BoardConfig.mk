@@ -36,12 +36,19 @@ TARGET_2ND_CPU_VARIANT := generic
 TARGET_BOARD_SUFFIX := _64
 TARGET_USES_64_BIT_BINDER := true
 
+# Enable CPUSets
+ENABLE_CPUSETS := true
+ENABLE_SCHEDBOOST := true
+
+# GPT Utils
+BOARD_PROVIDES_GPTUTILS := true
+
 # Assert
 TARGET_OTA_ASSERT_DEVICE := OnePlusN100
 
 # File systems
 BOARD_HAS_LARGE_FILESYSTEM := true
-#BOARD_RECOVERYIMAGE_PARTITION_SIZE := 100663296 # This is the maximum known partition size, but it can be higher, so we just omit it
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 100663296 # This is the maximum known partition size, but it can be higher, so we just omit it
 BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
@@ -54,7 +61,15 @@ AB_OTA_UPDATER := true
 TW_INCLUDE_REPACKTOOLS := true
 
 # Kernel
-BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 swiotlb=2048 loop.max_part=7 buildvariant=user
+BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom \
+                        androidboot.console=ttyMSM0 \ 
+                        androidboot.memcg=1 \
+                        lpm_levels.sleep_disabled=1 \ 
+                        video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 \ 
+                        service_locator.enable=1 \ 
+                        swiotlb=2048 \
+                        loop.max_part=7 \
+                        buildvariant=user
 BOARD_KERNEL_CMDLINE += androidboot.fastboot=1
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image.gz
@@ -88,7 +103,7 @@ TARGET_KERNEL_HEADER_ARCH := arm64
 #TARGET_KERNEL_SOURCE := kernel/oneplus/OnePlusN100
 #TARGET_KERNEL_CONFIG := OnePlusN100_defconfig
 TARGET_KERNEL_APPEND_DTB := false
-BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+#BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 # Platform
 TARGET_BOARD_PLATFORM := bengal
 QCOM_BOARD_PLATFORMS += bengal
@@ -125,7 +140,7 @@ BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := \
     odm
 
 # Partitions (listed in the file) to be wiped under recovery.
-TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
+TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery/root/system/etc/recovery.wipe
 
 # Workaround for error copying vendor files to recovery ramdisk
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
@@ -150,20 +165,20 @@ TARGET_RECOVERY_DEVICE_MODULES += \
     libpcrecpp \
     libxml2 
 
-TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/system/etc/recovery.fstab
 
 # Use mke2fs to create ext4 images
 TARGET_USES_MKE2FS := true
 
 # Encryption
-PLATFORM_VERSION := 16.1.0
+#PLATFORM_VERSION := 16.1.0
 PLATFORM_SECURITY_PATCH := 2099-12-31
 VENDOR_SECURITY_PATCH := 2099-12-31
 PLATFORM_VERSION := 127
 PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 TW_INCLUDE_CRYPTO := true
-TW_INCLUDE_CRYPTO_FBE := true
-TW_INCLUDE_FBE_METADATA_DECRYPT := true
+#TW_INCLUDE_CRYPTO_FBE := true
+#TW_INCLUDE_FBE_METADATA_DECRYPT := true
 BOARD_USES_METADATA_PARTITION := true
 BOARD_USES_QCOM_FBE_DECRYPTION := true
 PRODUCT_ENFORCE_VINTF_MANIFEST := true

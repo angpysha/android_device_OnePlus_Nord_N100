@@ -1,6 +1,0 @@
-ro.display.series=OnePlus Nord N100
-ro.product.board=bengal
-ro.board.platform=bengal
-vendor.gatekeeper.disable_spu=true
-ro.adb.secure=0
-fbe.metadata.wrappedkey=true
