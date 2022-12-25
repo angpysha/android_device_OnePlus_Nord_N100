@@ -261,6 +261,14 @@ TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
 # PRODUCT_PROPERTY_OVERRIDES += \
 #     ro.crypto.dm_default_key.options_format.version=2\
 
+# For local builds only
+#
+# TWRP zip installer
+ifneq ($(wildcard bootable/recovery/installer/.),)
+    USE_RECOVERY_INSTALLER := true
+    RECOVERY_INSTALLER_PATH := bootable/recovery/installer
+endif
+
 # Custom TWRP Versioning
 ifneq ($(wildcard device/common/version-info/.),)
     CUSTOM_TWRP_VERSION_PREFIX := CPTB
