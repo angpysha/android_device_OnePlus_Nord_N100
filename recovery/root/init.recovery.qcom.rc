@@ -27,27 +27,32 @@
 
 import /init.recovery.qcom_decrypt.rc
 
+on init
+    setprop prepdecrypt.loglevel 2
+    setprop prepdecrypt.setpatch true
+
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
+    export LD_LIBRARY_PATH /sbin:/vendor/lib64:/vendor/lib64/hw
 
-on boot
-    write /proc/touchpanel/gesture_enable 1
+# on boot
+#     write /proc/touchpanel/gesture_enable 1
 
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
 
     # this is for OnePlus 7 Pro 5g stock rom flashing
-    symlink /dev/block/bootdevice/by-name/mdm_oem_stanvbk /dev/block/bootdevice/by-name/mdm_oem_stanvbk_a
-    symlink /dev/block/bootdevice/by-name/mdm_oem_stanvbk /dev/block/bootdevice/by-name/mdm_oem_stanvbk_b
-    symlink /dev/block/bootdevice/by-name/spunvm /dev/block/bootdevice/by-name/spunvm_a
-    symlink /dev/block/bootdevice/by-name/spunvm /dev/block/bootdevice/by-name/spunvm_b
-    chmod 0660 /dev/qseecom
-    chown system drmrpc /dev/qseecom
-    chmod 0664 /dev/ion
-    chown system system /dev/ion
-    install_keyring
+    # symlink /dev/block/bootdevice/by-name/mdm_oem_stanvbk /dev/block/bootdevice/by-name/mdm_oem_stanvbk_a
+    # symlink /dev/block/bootdevice/by-name/mdm_oem_stanvbk /dev/block/bootdevice/by-name/mdm_oem_stanvbk_b
+    # symlink /dev/block/bootdevice/by-name/spunvm /dev/block/bootdevice/by-name/spunvm_a
+    # symlink /dev/block/bootdevice/by-name/spunvm /dev/block/bootdevice/by-name/spunvm_b
+    # chmod 0660 /dev/qseecom
+    # chown system drmrpc /dev/qseecom
+    # chmod 0664 /dev/ion
+    # chown system system /dev/ion
+    # install_keyring
 
 on property:ro.crypto.type=file
     setprop ro.crypto.state encrypted
