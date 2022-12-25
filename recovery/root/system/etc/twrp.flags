@@ -21,7 +21,9 @@
 /op2		ext4		/dev/block/bootdevice/by-name/op2 
 /logo       emmc       /dev/block/bootdevice/by-name/logo                    flags=backup=1;display="Boot Logo";slotselect
 /keymaster  emmc       /dev/block/bootdevice/by-name/keymaster               flags=slotselect
-
+/persist       ext4    /dev/block/bootdevice/by-name/persist        flags=display="Persist"
+/persist_image emmc    /dev/block/bootdevice/by-name/persist        flags=display="Persist";flashimg=1
+/storage    f2fs    /data/media/0 
 
 # Removable storage
 /usb-otg	auto		/dev/block/sdg1	/dev/block/sdg			flags=display="USB-OTG";storage;wipeingui;removable
@@ -34,7 +36,7 @@
 /dtbo			emmc	/dev/block/bootdevice/by-name/dtbo									flags=slotselect;display="DTBO";backup=1;flashimg=1
 /vbmeta			emmc	/dev/block/bootdevice/by-name/vbmeta								flags=slotselect;display="VBMeta";backup=1;flashimg=1
 /vbmeta_system	emmc	/dev/block/bootdevice/by-name/vbmeta_system							flags=slotselect;display="VBMeta System";backup=1;flashimg=1
-/persist         ext4       /dev/block/bootdevice/by-name/persist                 flags=backup=1;display="Persist"
+#/persist         ext4       /dev/block/bootdevice/by-name/persist                 flags=backup=1;display="Persist"
 #/prodpersist     ext4       /dev/block/bootdevice/by-name/prodpersist             flags=backup=1;display="Product Persist"
 
 # Flashable logical partitions
