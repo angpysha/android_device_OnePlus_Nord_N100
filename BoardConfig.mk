@@ -182,7 +182,7 @@ TW_INCLUDE_FBE_METADATA_DECRYPT := true
 BOARD_USES_METADATA_PARTITION := true
 BOARD_USES_QCOM_FBE_DECRYPTION := true
 PRODUCT_ENFORCE_VINTF_MANIFEST := true
-TW_USE_FSCRYPT_POLICY := 1
+#TW_USE_FSCRYPT_POLICY := 1
 
 # TWRP specific build flagss
 TARGET_RECOVERY_QCOM_RTC_FIX := true
@@ -239,3 +239,7 @@ TW_RECOVERY_ADDITIONAL_RELINK_FILES += $(TARGET_OUT_EXECUTABLES)/debuggerd
 BOARD_AVB_RECOVERY_ADD_HASH_FOOTER_ARGS += \
     --prop com.android.build.boot.os_version:$(PLATFORM_VERSION) \
     --prop com.android.build.boot.security_patch:$(PLATFORM_SECURITY_PATCH)
+
+    
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.crypto.dm_default_key.options_format.version=2
