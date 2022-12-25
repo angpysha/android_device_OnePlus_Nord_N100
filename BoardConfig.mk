@@ -41,10 +41,15 @@ ENABLE_CPUSETS := true
 ENABLE_SCHEDBOOST := true
 
 # GPT Utils
-BOARD_PROVIDES_GPTUTILS := true
+#BOARD_PROVIDES_GPTUTILS := true
 
 # Assert
-TARGET_OTA_ASSERT_DEVICE := OnePlusN100
+TARGET_OTA_ASSERT_DEVICE := OnePlusN100,billie2,Nord
+
+# Bootloader
+TARGET_BOOTLOADER_BOARD_NAME := $(PRODUCT_PLATFORM)
+TARGET_NO_BOOTLOADER := true
+TARGET_USES_UEFI := true
 
 # File systems
 BOARD_HAS_LARGE_FILESYSTEM := true
@@ -104,9 +109,12 @@ TARGET_KERNEL_HEADER_ARCH := arm64
 #TARGET_KERNEL_CONFIG := OnePlusN100_defconfig
 TARGET_KERNEL_APPEND_DTB := false
 #BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+
 # Platform
 TARGET_BOARD_PLATFORM := bengal
 QCOM_BOARD_PLATFORMS += bengal
+TARGET_USES_HARDWARE_QCOM_BOOTCTRL := true
+
 # Recovery
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 
@@ -127,17 +135,22 @@ BOARD_HAS_LARGE_FILESYSTEM := true
 
 # Dynamic/Logical Partitions
 BOARD_SUPER_PARTITION_SIZE := 10737418240
-BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
-BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 10737418240
+BOARD_ONEPLUS_DYNAMIC_PARTITIONS_PARTITION_LIST := odm product system system_ext vendor
+BOARD_ONEPLUS_DYNAMIC_PARTITIONS_SIZE := 5368709120
+BOARD_SUPER_PARTITION_GROUPS := oneplus_dynamic_partitions
+#BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
+#BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 10737418240
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 100663296
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 48062869504
 # TODO: fix this...
-BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := \
-    system \
-    system_ext \
-    vendor \
-    product \
-    odm
+#BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := \
+#    system \
+#    system_ext \
+#    vendor \
+#    product \
+#    odm
+
+BOARD_ONEPLUS_DYNAMIC_PARTITIONS_PARTITION_LIST := odm product system system_ext vendor
 
 # Partitions (listed in the file) to be wiped under recovery.
 TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery/root/system/etc/recovery.wipe
@@ -177,12 +190,12 @@ VENDOR_SECURITY_PATCH := 2127-12-31
 PLATFORM_VERSION := 127
 PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 TW_INCLUDE_CRYPTO := true
-#TW_INCLUDE_CRYPTO_FBE := true
+TW_INCLUDE_CRYPTO_FBE := true
 TW_INCLUDE_FBE_METADATA_DECRYPT := true
 BOARD_USES_METADATA_PARTITION := true
 BOARD_USES_QCOM_FBE_DECRYPTION := true
 PRODUCT_ENFORCE_VINTF_MANIFEST := true
-#TW_USE_FSCRYPT_POLICY := 1
+TW_USE_FSCRYPT_POLICY := 1
 
 # TWRP specific build flagss
 TARGET_RECOVERY_QCOM_RTC_FIX := true
@@ -192,17 +205,19 @@ TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
 TW_DEFAULT_BRIGHTNESS := 420
 TW_Y_OFFSET := 104
 TW_H_OFFSET := -104
+TW_EXCLUDE_APEX := true
 TW_EXCLUDE_DEFAULT_USB_INIT := true
 TW_EXCLUDE_ENCRYPTED_BACKUPS := true
 TW_EXCLUDE_TWRPAPP := true
 TW_EXTRA_LANGUAGES := true
 TW_HAS_EDL_MODE := true
 TW_INCLUDE_NTFS_3G := true
+TW_INCLUDE_RESETPROP := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_NO_BIND_SYSTEM := true
 TW_NO_EXFAT_FUSE := true
 TW_OVERRIDE_SYSTEM_PROPS := \
-    "ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
+    "ro.build.date.utc;ro.bootimage.build.date.utc=ro.build.date.utc;ro.odm.build.date.utc=ro.build.date.utc;ro.product.build.date.utc=ro.build.date.utc;ro.system.build.date.utc=ro.build.date.utc;ro.system_ext.build.date.utc=ro.build.date.utc;ro.vendor.build.date.utc=ro.build.date.utc;ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
 TW_RECOVERY_ADDITIONAL_RELINK_BINARY_FILES += \
     $(TARGET_OUT_EXECUTABLES)/ashmemd \
     $(TARGET_OUT_EXECUTABLES)/strace
@@ -221,7 +236,7 @@ RECOVERY_SDCARD_ON_DATA := true
 
 # Avb
 BOARD_AVB_ENABLE := true
-BOARD_AVB_VBMETA_SYSTEM := system
+BOARD_AVB_VBMETA_SYSTEM := system system_ext product
 BOARD_AVB_VBMETA_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
 BOARD_AVB_VBMETA_SYSTEM_ALGORITHM := SHA256_RSA2048
 BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
@@ -244,4 +259,15 @@ BOARD_AVB_RECOVERY_ADD_HASH_FOOTER_ARGS += \
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
 # PRODUCT_PROPERTY_OVERRIDES += \
-#     ro.crypto.dm_default_key.options_format.version=2
+#     ro.crypto.dm_default_key.options_format.version=2\
+
+# Custom TWRP Versioning
+ifneq ($(wildcard device/common/version-info/.),)
+    CUSTOM_TWRP_VERSION_PREFIX := CPTB
+
+    include device/common/version-info/custom_twrp_version.mk
+
+    ifeq ($(CUSTOM_TWRP_VERSION),)
+        CUSTOM_TWRP_VERSION := $(shell date +%Y%m%d)-01
+    endif
+endif

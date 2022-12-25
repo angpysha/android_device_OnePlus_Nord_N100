@@ -2,7 +2,7 @@
 # Logical partitions
 
 # Physical partitions
-/metadata	ext4		/dev/block/bootdevice/by-name/metadata		flags=backup=1;display="Metadata"
+#/metadata	ext4		/dev/block/bootdevice/by-name/metadata		flags=backup=1;display="Metadata"
 /boot		emmc		/dev/block/bootdevice/by-name/boot		    flags=slotselect;backup=1;display="Boot";flashimg=1
 /dtbo       emmc       /dev/block/bootdevice/by-name/dtbo           flags=backup=1;display="DTBO";slotselect;flashimg=1
 /vbmeta     emmc       /dev/block/bootdevice/by-name/vbmeta         flags=backup=1;display="VBMeta";slotselect;flashimg=1

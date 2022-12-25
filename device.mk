@@ -24,10 +24,15 @@ AB_OTA_UPDATER := true
 # A/B
 AB_OTA_PARTITIONS += \
     boot \
+    dtbo \
+    odm \
+    product \
+    recovery \
     system \
     system_ext \
-    vendor \
-    vbmeta
+    vbmeta \
+    vbmeta_system \
+    vendor
 
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
@@ -37,6 +42,7 @@ AB_OTA_POSTINSTALL_CONFIG += \
 
 # Boot control HAL
 PRODUCT_PACKAGES += \
+    android.hardware.boot@1.1-impl-qti.recovery \
     android.hardware.boot@1.0-impl \
     android.hardware.boot@1.0-service \
     android.hardware.boot@1.0-impl-wrapper.recovery \
@@ -61,10 +67,12 @@ TARGET_ENFORCE_AB_OTA_PARTITION_LIST := true
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
 # qcom decryption
-PRODUCT_PACKAGES_ENG += \
+PRODUCT_PACKAGES += \
     qcom_decrypt \
     qcom_decrypt_fbe
 
+PRODUCT_PACKAGES_DEBUG += \
+    bootctl
 
 # fastbootd
 PRODUCT_PACKAGES += \
