@@ -20,7 +20,7 @@ LOCAL_PATH := device/oneplus/OnePlusN100
 
 AB_OTA_UPDATER := true
 #PRODUCT_SHIPPING_API_LEVEL := 30
-
+PRODUCT_SHIPPING_API_LEVEL := 29
 # A/B
 AB_OTA_PARTITIONS += \
     boot \
@@ -43,17 +43,10 @@ AB_OTA_POSTINSTALL_CONFIG += \
 # Boot control HAL
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.1-impl-qti.recovery \
-    android.hardware.boot@1.0-impl \
-    android.hardware.boot@1.0-service \
-    android.hardware.boot@1.0-impl-wrapper.recovery \
-    android.hardware.boot@1.0-impl-wrapper \
-    android.hardware.boot@1.0-impl.recovery \
-    bootctrl.$(PRODUCT_PLATFORM) \
     bootctrl.$(PRODUCT_PLATFORM).recovery
 
 PRODUCT_PACKAGES += \
     otapreopt_script \
-    cppreopts.sh \
     update_engine \
     update_verifier \
     update_engine_sideload

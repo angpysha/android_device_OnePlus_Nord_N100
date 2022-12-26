@@ -20,6 +20,6 @@
     <hal format="hidl">
         <name>android.hardware.boot</name>
         <transport>hwbinder</transport>
-        <fqname>@1.0::IBootControl/default</fqname>
+        <fqname>@1.1::IBootControl/default</fqname>
     </hal>
 </manifest>
