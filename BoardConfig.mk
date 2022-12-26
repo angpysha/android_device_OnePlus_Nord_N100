@@ -55,9 +55,9 @@ TARGET_USES_UEFI := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 100663296 # This is the maximum known partition size, but it can be higher, so we just omit it
 BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
-BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
-TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_EXT4 := false
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_COPY_OUT_VENDOR := vendor
 
@@ -168,14 +168,7 @@ BOARD_BUILD_SYSTEM_ROOT_IMAGE := false
 TARGET_NO_RECOVERY := false
 TARGET_NO_KERNEL := false
 TARGET_RECOVERY_DEVICE_MODULES += \
-    android.hidl.base@1.0 \
-    ashmemd \
-    ashmemd_aidl_interface-cpp \
-    bootctrl.$(TARGET_BOARD_PLATFORM).recovery \
-    libashmemd_client \
-    libcap \
     libion \
-    libpcrecpp \
     libxml2 
 
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/system/etc/recovery.fstab
@@ -214,21 +207,27 @@ TW_HAS_EDL_MODE := true
 TW_INCLUDE_NTFS_3G := true
 TW_INCLUDE_RESETPROP := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
-TW_NO_BIND_SYSTEM := true
-TW_NO_EXFAT_FUSE := true
+#TW_NO_BIND_SYSTEM := true
+#TW_NO_EXFAT_FUSE := true
 TW_OVERRIDE_SYSTEM_PROPS := \
     "ro.build.date.utc;ro.bootimage.build.date.utc=ro.build.date.utc;ro.odm.build.date.utc=ro.build.date.utc;ro.product.build.date.utc=ro.build.date.utc;ro.system.build.date.utc=ro.build.date.utc;ro.system_ext.build.date.utc=ro.build.date.utc;ro.vendor.build.date.utc=ro.build.date.utc;ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
-TW_RECOVERY_ADDITIONAL_RELINK_BINARY_FILES += \
-    $(TARGET_OUT_EXECUTABLES)/ashmemd \
-    $(TARGET_OUT_EXECUTABLES)/strace
-TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
-    $(TARGET_OUT_SHARED_LIBRARIES)/android.hidl.base@1.0.so \
-    $(TARGET_OUT_SHARED_LIBRARIES)/ashmemd_aidl_interface-cpp.so \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libashmemd_client.so \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libcap.so \
+# TW_RECOVERY_ADDITIONAL_RELINK_BINARY_FILES += \
+#     $(TARGET_OUT_EXECUTABLES)/ashmemd \
+#     $(TARGET_OUT_EXECUTABLES)/strace
+# TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
+#     $(TARGET_OUT_SHARED_LIBRARIES)/android.hidl.base@1.0.so \
+#     $(TARGET_OUT_SHARED_LIBRARIES)/ashmemd_aidl_interface-cpp.so \
+#     $(TARGET_OUT_SHARED_LIBRARIES)/libashmemd_client.so \
+#     $(TARGET_OUT_SHARED_LIBRARIES)/libcap.so \
+#     $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
+#     $(TARGET_OUT_SHARED_LIBRARIES)/libpcrecpp.so \
+#     $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so 
+RECOVERY_LIBRARY_SOURCE_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libpcrecpp.so \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so 
+    $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so \
+    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@1.0.so \
+    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@2.0.so
+
 
 TW_EXCLUDE_ENCRYPTED_BACKUPS := false
 TW_NO_SCREEN_BLANK := true
@@ -248,12 +247,14 @@ TARGET_USES_LOGD := true
 #TWRP_EVENT_LOGGING := true
 TWRP_INCLUDE_LOGCAT := true
 TARGET_RECOVERY_DEVICE_MODULES += debuggerd
-TW_RECOVERY_ADDITIONAL_RELINK_FILES += $(TARGET_OUT_EXECUTABLES)/debuggerd
+RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/debuggerd
+TARGET_RECOVERY_DEVICE_MODULES += strace
+RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/strace
 # ????
 #BOARD_RAMDISK_USE_LZMA := false
-BOARD_AVB_RECOVERY_ADD_HASH_FOOTER_ARGS += \
-    --prop com.android.build.boot.os_version:$(PLATFORM_VERSION) \
-    --prop com.android.build.boot.security_patch:$(PLATFORM_SECURITY_PATCH)
+# BOARD_AVB_RECOVERY_ADD_HASH_FOOTER_ARGS += \
+#     --prop com.android.build.boot.os_version:$(PLATFORM_VERSION) \
+#     --prop com.android.build.boot.security_patch:$(PLATFORM_SECURITY_PATCH)
 
 #Add options to system and vendor props
 # TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
