@@ -27,14 +27,17 @@ TARGET_ARCH_VARIANT := armv8-a
 TARGET_CPU_ABI := arm64-v8a
 TARGET_CPU_ABI2 :=
 TARGET_CPU_VARIANT := generic
+TARGET_2ND_CPU_VARIANT_RUNTIME := kryo385
 
 TARGET_2ND_ARCH := arm
 TARGET_2ND_ARCH_VARIANT := armv7-a-neon
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := generic
-TARGET_BOARD_SUFFIX := _64
-TARGET_USES_64_BIT_BINDER := true
+# TARGET_BOARD_SUFFIX := _64
+# TARGET_USES_64_BIT_BINDER := true
+TARGET_2ND_CPU_VARIANT_RUNTIME := kryo385
+
 
 # Enable CPUSets
 ENABLE_CPUSETS := true
@@ -115,13 +118,10 @@ TARGET_BOARD_PLATFORM := bengal
 QCOM_BOARD_PLATFORMS += bengal
 TARGET_USES_HARDWARE_QCOM_BOOTCTRL := true
 
+BOARD_USES_PRODUCTIMAGE := true
+
 # Recovery
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
-
-# Hack: prevent anti rollback
-PLATFORM_SECURITY_PATCH := 2127-12-31
-VENDOR_SECURITY_PATCH := 2127-12-31
-PLATFORM_VERSION := 127
 
 # TWRP Configuration
 TW_THEME := portrait_hdpi
@@ -132,6 +132,7 @@ TW_USE_TOOLBOX := true
 TW_DEFAULT_LANGUAGE := en
 TW_APP_EXCLUDE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
+TW_NO_SCREEN_BLANK := true
 
 # Dynamic/Logical Partitions
 BOARD_SUPER_PARTITION_SIZE := 10737418240
@@ -161,6 +162,7 @@ TARGET_COPY_OUT_VENDOR := vendor
 
 # Recovery
 BOARD_HAS_LARGE_FILESYSTEM := true
+RECOVERY_SDCARD_ON_DATA := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_SUPPRESS_SECURE_ERASE := true
 BOARD_USES_RECOVERY_AS_BOOT := false
@@ -177,7 +179,6 @@ TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/system/etc/recovery.fstab
 TARGET_USES_MKE2FS := true
 
 # Encryption
-#PLATFORM_VERSION := 16.1.0
 PLATFORM_SECURITY_PATCH := 2127-12-31
 VENDOR_SECURITY_PATCH := 2127-12-31
 PLATFORM_VERSION := 127
@@ -200,7 +201,7 @@ TW_Y_OFFSET := 104
 TW_H_OFFSET := -104
 TW_EXCLUDE_APEX := true
 TW_EXCLUDE_DEFAULT_USB_INIT := true
-TW_EXCLUDE_ENCRYPTED_BACKUPS := true
+TW_EXCLUDE_ENCRYPTED_BACKUPS := false
 TW_EXCLUDE_TWRPAPP := true
 TW_EXTRA_LANGUAGES := true
 TW_HAS_EDL_MODE := true
@@ -211,27 +212,11 @@ TW_INPUT_BLACKLIST := "hbtp_vm"
 #TW_NO_EXFAT_FUSE := true
 TW_OVERRIDE_SYSTEM_PROPS := \
     "ro.build.date.utc;ro.bootimage.build.date.utc=ro.build.date.utc;ro.odm.build.date.utc=ro.build.date.utc;ro.product.build.date.utc=ro.build.date.utc;ro.system.build.date.utc=ro.build.date.utc;ro.system_ext.build.date.utc=ro.build.date.utc;ro.vendor.build.date.utc=ro.build.date.utc;ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
-# TW_RECOVERY_ADDITIONAL_RELINK_BINARY_FILES += \
-#     $(TARGET_OUT_EXECUTABLES)/ashmemd \
-#     $(TARGET_OUT_EXECUTABLES)/strace
-# TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
-#     $(TARGET_OUT_SHARED_LIBRARIES)/android.hidl.base@1.0.so \
-#     $(TARGET_OUT_SHARED_LIBRARIES)/ashmemd_aidl_interface-cpp.so \
-#     $(TARGET_OUT_SHARED_LIBRARIES)/libashmemd_client.so \
-#     $(TARGET_OUT_SHARED_LIBRARIES)/libcap.so \
-#     $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
-#     $(TARGET_OUT_SHARED_LIBRARIES)/libpcrecpp.so \
-#     $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so 
+
 RECOVERY_LIBRARY_SOURCE_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so \
-    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@1.0.so \
-    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@2.0.so
+    $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so 
 
-
-TW_EXCLUDE_ENCRYPTED_BACKUPS := false
-TW_NO_SCREEN_BLANK := true
-RECOVERY_SDCARD_ON_DATA := true
 
 # Avb
 BOARD_AVB_ENABLE := true

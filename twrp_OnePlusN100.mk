@@ -29,6 +29,8 @@ $(call inherit-product, device/oneplus/OnePlusN100/device.mk)
 $(call inherit-product, vendor/twrp/config/common.mk)
 #$(call inherit-product, vendor/omni/config/gsm.mk)
 
+PRODUCT_RELEASE_NAME := billie2
+
 # Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := OnePlusN100
 PRODUCT_NAME := twrp_OnePlusN100
