@@ -15,5 +15,5 @@ vendor.gatekeeper.disable_spu=true
 # USB Config
 vendor.usb.use_ffs_mtp=1
 
-ro.product.first_api_level=30
-ro.vendor.build.version.sdk=30
+ro.product.first_api_level=29
+ro.vendor.build.version.sdk=29

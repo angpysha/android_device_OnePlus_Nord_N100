@@ -255,9 +255,9 @@ BOARD_AVB_RECOVERY_ADD_HASH_FOOTER_ARGS += \
     --prop com.android.build.boot.os_version:$(PLATFORM_VERSION) \
     --prop com.android.build.boot.security_patch:$(PLATFORM_SECURITY_PATCH)
 
-
-TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
-TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
+#Add options to system and vendor props
+# TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
+# TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
 # PRODUCT_PROPERTY_OVERRIDES += \
 #     ro.crypto.dm_default_key.options_format.version=2\
 
