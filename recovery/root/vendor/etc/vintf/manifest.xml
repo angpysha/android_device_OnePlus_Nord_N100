@@ -1,7 +1,8 @@
-<manifest version="2.0" type="device" target-level="4">
+<manifest version="1.0" type="device" target-level="4">
     <hal format="hidl">
         <name>android.hardware.keymaster</name>
         <transport>hwbinder</transport>
+        <version>4.0</version>
         <interface>
             <name>IKeymasterDevice</name>
             <instance>default</instance>
@@ -11,6 +12,7 @@
     <hal format="hidl">
         <name>android.hardware.gatekeeper</name>
         <transport>hwbinder</transport>
+        <version>1.0</version>
         <interface>
             <name>IGatekeeper</name>
             <instance>default</instance>
@@ -20,6 +22,11 @@
     <hal format="hidl">
         <name>android.hardware.boot</name>
         <transport>hwbinder</transport>
-        <fqname>@1.1::IBootControl/default</fqname>
+        <version>1.0</version>
+        <interface>
+            <name>IBootControl</name>
+            <instance>default</instance>
+        </interface>
+        <fqname>@1.0::IBootControl/default</fqname>
     </hal>
 </manifest>

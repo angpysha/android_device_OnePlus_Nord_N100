@@ -1,4 +1,4 @@
-<manifest version="4.0" type="framework">
+<manifest version="5.0" type="framework">
     <hal format="hidl">
         <name>android.hidl.manager</name>
         <transport>hwbinder</transport>
