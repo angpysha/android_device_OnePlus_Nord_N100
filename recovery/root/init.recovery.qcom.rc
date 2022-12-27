@@ -57,7 +57,7 @@ on init
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
-    #export LD_LIBRARY_PATH /sbin:/vendor/lib64:/vendor/lib64/hw
+    export LD_LIBRARY_PATH /sbin:/vendor/lib64:/vendor/lib64/hw
 
 # on boot
 #     write /proc/touchpanel/gesture_enable 1
@@ -77,9 +77,9 @@ on fs
     # chown system system /dev/ion
     # install_keyring
 
-on property:ro.crypto.type=file
-    setprop ro.crypto.state encrypted
-    setprop twrp.apex.loaded true
+# on property:ro.crypto.type=file
+#     setprop ro.crypto.state encrypted
+#     setprop twrp.apex.loaded true
 
 # on early-fs
 #     start vold
@@ -143,11 +143,15 @@ on property:ro.crypto.type=file
 #     disabled
 #     seclabel u:r:recovery:s0
 
-# service keymaster-4-0 /sbin/android.hardware.keymaster@4.0-service-qti
-#     user root
-#     group root
-#     disabled
-#     seclabel u:r:recovery:s0
+service keymaster-4-0 /system/bin/android.hardware.keymaster@4.0-service-qti
+	interface android.hardware.keymaster@4.0::IKeymasterDevice default
+    user root
+    group root
+    disabled
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
 
 # service logd /system/bin/logd
 #     user root
@@ -190,8 +194,8 @@ on property:ro.crypto.type=file
 # on property:crypto.ready=1
 #     start sbinqseecomd
 
-# on property:vendor.sys.listeners.registered=true
-#     start keymaster-4-0
+on property:vendor.sys.listeners.registered=true
+     start keymaster-4-0
 #     start gatekeeper-1-0
 #     start servicemanager
 #     restart time_daemon
