@@ -30,7 +30,7 @@ TARGET_CPU_VARIANT := generic
 TARGET_2ND_CPU_VARIANT_RUNTIME := kryo385
 
 TARGET_2ND_ARCH := arm
-TARGET_2ND_ARCH_VARIANT := armv7-a-neon
+TARGET_2ND_ARCH_VARIANT := armv8-a
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := generic
@@ -47,7 +47,7 @@ ENABLE_SCHEDBOOST := true
 #BOARD_PROVIDES_GPTUTILS := true
 
 # Assert
-TARGET_OTA_ASSERT_DEVICE := OnePlusN100,billie2,Nord
+TARGET_OTA_ASSERT_DEVICE := billie2,OnePlusN100,Nord
 
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := $(PRODUCT_PLATFORM)
@@ -58,7 +58,7 @@ TARGET_USES_UEFI := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 100663296 # This is the maximum known partition size, but it can be higher, so we just omit it
 BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
-BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
+#BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_USERIMAGES_USE_EXT4 := false
 TARGET_USERIMAGES_USE_F2FS := true
@@ -155,13 +155,13 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 48062869504
 #    product \
 #    odm
 
-BOARD_ONEPLUS_DYNAMIC_PARTITIONS_PARTITION_LIST := odm product system system_ext vendor
-
 # Partitions (listed in the file) to be wiped under recovery.
 TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery/root/system/etc/recovery.wipe
 
 # Workaround for error copying vendor files to recovery ramdisk
+BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+TARGET_COPY_OUT_PRODUCT := product
 TARGET_COPY_OUT_VENDOR := vendor
 
 # Recovery
