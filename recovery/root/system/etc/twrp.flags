@@ -2,7 +2,7 @@
 # Logical partitions
 
 # Physical partitions
-#/metadata	ext4		/dev/block/bootdevice/by-name/metadata		flags=backup=1;display="Metadata"
+/metadata	ext4		/dev/block/bootdevice/by-name/metadata		flags=backup=1;display="Metadata"
 /boot		emmc		/dev/block/bootdevice/by-name/boot		    flags=slotselect;backup=1;display="Boot";flashimg=1
 /dtbo       emmc        /dev/block/bootdevice/by-name/dtbo           flags=backup=1;display="DTBO";slotselect;flashimg=1
 /vbmeta     emmc        /dev/block/bootdevice/by-name/vbmeta         flags=backup=1;display="VBMeta";slotselect;flashimg=1
@@ -23,7 +23,7 @@
 /keymaster  emmc        /dev/block/bootdevice/by-name/keymaster     flags=slotselect
 /persist       ext4     /dev/block/bootdevice/by-name/persist       flags=display="Persist"
 /persist_image emmc     /dev/block/bootdevice/by-name/persist       flags=display="Persist";flashimg=1
-/storage       f2fs     /data/media/0                             flags=display="Internal Storage";usermrf;backup=1;fsflags="bind";removable
+#/storage       f2fs     /data/media/0                             flags=display="Internal Storage";usermrf;backup=1;fsflags="bind";removable
 # Removable storage
 /usb-otg	auto		/dev/block/sdg1	/dev/block/sdg			flags=display="USB-OTG";storage;wipeingui;removable
 /external_sd	vfat	/dev/block/mmcblk0p1						/dev/block/mmcblk0		flags=display="Micro SD Card";storage;wipeingui;removable
