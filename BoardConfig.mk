@@ -248,8 +248,8 @@ RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/strace
 #     --prop com.android.build.boot.security_patch:$(PLATFORM_SECURITY_PATCH)
 
 #Add options to system and vendor props
-TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
-TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
+#TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
+#TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
 # PRODUCT_PROPERTY_OVERRIDES += \
 #     ro.crypto.dm_default_key.options_format.version=2\
 
