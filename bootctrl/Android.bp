@@ -17,5 +17,5 @@
 cc_library {
     name: "bootctrl.bengal",
     defaults: ["bootctrl_hal_defaults"],
-    static_libs: ["libgptutils.oneplusnord"],
+    static_libs: ["libgptutils.oneplusbengal"],
 }

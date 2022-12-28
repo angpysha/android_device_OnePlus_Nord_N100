@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
+
 cc_library {
-    name: "libgptutils.oneplusnord",
+    name: "libgptutils.oneplusbengal",
     vendor: true,
     recovery_available: true,
     shared_libs: [
@@ -31,8 +32,5 @@ cc_library {
         "gpt-utils.cpp",
     ],
     owner: "qti",
-    header_libs: [
-        "generated_kernel_headers",
-    ],
     export_include_dirs: ["."],
 }
