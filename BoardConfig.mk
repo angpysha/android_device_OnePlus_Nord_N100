@@ -88,6 +88,7 @@ BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom \
                         loop.max_part=7 \
                         buildvariant=user
 BOARD_KERNEL_CMDLINE += androidboot.fastboot=1
+BOARD_KERNEL_CMDLINE += enforcing=0
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image.gz
 TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img

@@ -16,10 +16,10 @@
 # limitations under the License.
 #
 
-# Inherit from the common Open Source product configuration
+#Inherit from the common Open Source product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
 
-# Installs gsi keys into ramdisk, to boot a GSI with verified boot.
+#Installs gsi keys into ramdisk, to boot a GSI with verified boot.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
 
 # define hardware platform
@@ -29,7 +29,7 @@ LOCAL_PATH := device/oneplus/OnePlusN100
 
 AB_OTA_UPDATER := true
 #PRODUCT_SHIPPING_API_LEVEL := 30
-#PRODUCT_SHIPPING_API_LEVEL := 29
+PRODUCT_SHIPPING_API_LEVEL := 30
 # A/B
 AB_OTA_PARTITIONS += \
     boot \
@@ -104,7 +104,9 @@ PRODUCT_SYSTEM_PROPERTY_BLACKLIST += \
     ro.build.date.utc
 
 PRODUCT_COPY_FILES += \
-    $(OUT_DIR)/target/product/$(PRODUCT_RELEASE_NAME)/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so
+    $(OUT_DIR)/target/product/OnePlusN100/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so 
+    
+
 
 # # OEM otacert
 # PRODUCT_EXTRA_RECOVERY_KEYS += \
