@@ -62,7 +62,6 @@ BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_USERIMAGES_USE_EXT4 := false
 TARGET_USERIMAGES_USE_F2FS := true
-TARGET_COPY_OUT_VENDOR := vendor
 
 # A/B
 AB_OTA_UPDATER := true
@@ -118,25 +117,12 @@ TARGET_KERNEL_APPEND_DTB := false
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 
 # Platform
-TARGET_BOARD_PLATFORM := bengal
-QCOM_BOARD_PLATFORMS += bengal
+TARGET_BOARD_PLATFORM := $(TARGET_BOOTLOADER_BOARD_NAME)
+QCOM_BOARD_PLATFORMS += $(TARGET_BOARD_PLATFORM)
 TARGET_USES_HARDWARE_QCOM_BOOTCTRL := true
 
 BOARD_USES_PRODUCTIMAGE := true
 
-# Recovery
-TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
-
-# TWRP Configuration
-TW_THEME := portrait_hdpi
-TW_EXTRA_LANGUAGES := true
-TW_SCREEN_BLANK_ON_BOOT := false
-TW_INPUT_BLACKLIST := "hbtp_vm"
-TW_USE_TOOLBOX := true
-TW_DEFAULT_LANGUAGE := en
-TW_APP_EXCLUDE := true
-BOARD_HAS_LARGE_FILESYSTEM := true
-TW_NO_SCREEN_BLANK := true
 
 # Dynamic/Logical Partitions
 BOARD_SUPER_PARTITION_SIZE := 10737418240
@@ -146,7 +132,7 @@ BOARD_SUPER_PARTITION_GROUPS := oneplus_dynamic_partitions
 #BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
 #BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 10737418240
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 100663296
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 48062869504
+#BOARD_USERDATAIMAGE_PARTITION_SIZE := 48062869504
 # TODO: fix this...
 #BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := \
 #    system \
@@ -165,11 +151,10 @@ TARGET_COPY_OUT_PRODUCT := product
 TARGET_COPY_OUT_VENDOR := vendor
 
 # Recovery
-BOARD_HAS_LARGE_FILESYSTEM := true
-RECOVERY_SDCARD_ON_DATA := true
-BOARD_HAS_NO_SELECT_BUTTON := true
+#RECOVERY_SDCARD_ON_DATA := true
+#BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_SUPPRESS_SECURE_ERASE := true
-BOARD_USES_RECOVERY_AS_BOOT := false
+#BOARD_USES_RECOVERY_AS_BOOT := false
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := false
 TARGET_NO_RECOVERY := false
 TARGET_NO_KERNEL := false
@@ -192,8 +177,7 @@ PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_CRYPTO_FBE := true
 #TW_INCLUDE_FBE := true
-TW_INCLUDE_FBE_METADATA_DECRYPT := true
-#TW_INCLUDE_FBE_METADATA_DECRYPT
+#TW_INCLUDE_FBE_METADATA_DECRYPT := true
 BOARD_USES_METADATA_PARTITION := true
 BOARD_USES_QCOM_FBE_DECRYPTION := true
 #PRODUCT_ENFORCE_VINTF_MANIFEST := true
@@ -216,8 +200,12 @@ TW_HAS_EDL_MODE := true
 TW_INCLUDE_NTFS_3G := true
 TW_INCLUDE_RESETPROP := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
-#TW_NO_BIND_SYSTEM := true
-#TW_NO_EXFAT_FUSE := true
+TW_SCREEN_BLANK_ON_BOOT := false
+TW_USE_TOOLBOX := true
+TW_DEFAULT_LANGUAGE := en
+TW_APP_EXCLUDE := true
+TW_NO_SCREEN_BLANK := true
+TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 TW_OVERRIDE_SYSTEM_PROPS := \
     "ro.build.date.utc;ro.bootimage.build.date.utc=ro.build.date.utc;ro.odm.build.date.utc=ro.build.date.utc;ro.product.build.date.utc=ro.build.date.utc;ro.system.build.date.utc=ro.build.date.utc;ro.system_ext.build.date.utc=ro.build.date.utc;ro.vendor.build.date.utc=ro.build.date.utc;ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
 
@@ -229,7 +217,7 @@ RECOVERY_LIBRARY_SOURCE_FILES += \
 
 
 # Avb
-BOARD_AVB_ENABLE := true
+#BOARD_AVB_ENABLE := true
 BOARD_AVB_VBMETA_SYSTEM := system system_ext product
 BOARD_AVB_VBMETA_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
 BOARD_AVB_VBMETA_SYSTEM_ALGORITHM := SHA256_RSA2048
@@ -245,8 +233,6 @@ TARGET_RECOVERY_DEVICE_MODULES += debuggerd
 RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/debuggerd
 TARGET_RECOVERY_DEVICE_MODULES += strace
 RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/strace
-# ????
-#BOARD_RAMDISK_USE_LZMA := false
 # BOARD_AVB_RECOVERY_ADD_HASH_FOOTER_ARGS += \
 #     --prop com.android.build.boot.os_version:$(PLATFORM_VERSION) \
 #     --prop com.android.build.boot.security_patch:$(PLATFORM_SECURITY_PATCH)
