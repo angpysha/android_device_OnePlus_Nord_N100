@@ -82,9 +82,9 @@ on fs
 #     chown system system /dev/ion
 #     install_keyring
 
-# on property:ro.crypto.type=file
-#     setprop ro.crypto.state encrypted
-#     setprop twrp.apex.loaded true
+on property:ro.crypto.type=file
+    setprop ro.crypto.state encrypted
+    setprop twrp.apex.loaded true
 
 # on early-fs
 #     start vold
