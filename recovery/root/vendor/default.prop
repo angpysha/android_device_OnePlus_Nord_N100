@@ -2,7 +2,7 @@
 # ADDITIONAL VENDOR DEFAULT PROPERTIES
 #
 ro.vndk.version=29
-ro.adb.secure=1
+ro.adb.secure=0
 ro.oem_unlock_supported=1
 ro.zygote=zygote64_32
 ro.logd.size.stats=64K
