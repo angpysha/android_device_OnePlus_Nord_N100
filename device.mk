@@ -16,6 +16,15 @@
 # limitations under the License.
 #
 
+# Inherit from the common Open Source product configuration
+$(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
+
+# Installs gsi keys into ramdisk, to boot a GSI with verified boot.
+$(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
+
+# define hardware platform
+PRODUCT_PLATFORM := bengal
+
 LOCAL_PATH := device/oneplus/OnePlusN100
 
 AB_OTA_UPDATER := true
@@ -47,9 +56,12 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     otapreopt_script \
+    cppreopts.sh \
     update_engine \
     update_verifier \
     update_engine_sideload
+
+ #   cppreopts.sh \
 
 # tell update_engine to not change dynamic partition table during updates
 # needed since our qti_dynamic_partitions does not include
@@ -64,8 +76,12 @@ PRODUCT_PACKAGES += \
     qcom_decrypt \
     qcom_decrypt_fbe
 
-PRODUCT_PACKAGES_DEBUG += \
-    bootctl
+PRODUCT_PACKAGES += \
+    bootctl.bengal \ 
+
+# Recovery Modules
+PRODUCT_HOST_PACKAGES += \
+    libandroidicu
 
 # fastbootd
 PRODUCT_PACKAGES += \
@@ -75,3 +91,12 @@ PRODUCT_PACKAGES += \
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH)
+
+# Blacklist
+PRODUCT_SYSTEM_PROPERTY_BLACKLIST += \
+    ro.bootimage.build.date.utc \
+    ro.build.date.utc
+
+# OEM otacert
+PRODUCT_EXTRA_RECOVERY_KEYS += \
+    $(LOCAL_PATH)/security/ota
