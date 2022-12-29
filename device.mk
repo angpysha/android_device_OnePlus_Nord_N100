@@ -29,7 +29,7 @@ LOCAL_PATH := device/oneplus/OnePlusN100
 
 AB_OTA_UPDATER := true
 #PRODUCT_SHIPPING_API_LEVEL := 30
-PRODUCT_SHIPPING_API_LEVEL := 29
+#PRODUCT_SHIPPING_API_LEVEL := 29
 # A/B
 AB_OTA_PARTITIONS += \
     boot \
@@ -77,7 +77,8 @@ PRODUCT_PACKAGES += \
     qcom_decrypt_fbe
 
 PRODUCT_PACKAGES += \
-    bootctl.bengal \ 
+    bootctl.bengal \
+    update_engine_sideload 
 
 # Recovery Modules
 PRODUCT_HOST_PACKAGES += \
@@ -88,14 +89,22 @@ PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.0-impl-mock \
     fastbootd 
 
+# # Soong namespaces
+# PRODUCT_SOONG_NAMESPACES += \
+#     $(DEVICE_PATH)
+
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
-    $(DEVICE_PATH)
+    $(LOCAL_PATH) \
+    vendor/qcom/opensource/commonsys-intf/display
 
 # Blacklist
 PRODUCT_SYSTEM_PROPERTY_BLACKLIST += \
     ro.bootimage.build.date.utc \
     ro.build.date.utc
+
+PRODUCT_COPY_FILES += \
+    $(OUT_DIR)/target/product/$(PRODUCT_RELEASE_NAME)/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so
 
 # # OEM otacert
 # PRODUCT_EXTRA_RECOVERY_KEYS += \

@@ -28,23 +28,27 @@
 import /init.recovery.qcom_decrypt.rc
 import /init.recovery.qcom_decrypt.fbe.rc
 
-service boot-1-0 /system/bin/android.hardware.boot@1.0-service
-    user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0
+# service boot-1-0 /system/bin/android.hardware.boot@1.0-service
+#     user root
+#     group root
+#     disabled
+#     seclabel u:r:recovery:s0
 
-service boot-1-1 /system/bin/android.hardware.boot@1.1-service
-    user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0
+# service boot-1-1 /system/bin/android.hardware.boot@1.1-service
+#     user root
+#     group root
+#     disabled
+#     seclabel u:r:recovery:s0
 
-on init
-    write /sys/class/backlight/panel0-backlight/brightness 200
-    setprop sys.usb.configfs 1
-    start boot-1-1
+# on init
+#     write /sys/class/backlight/panel0-backlight/brightness 200
+#     setprop sys.usb.configfs 1
+#     start boot-1-1
+#     start health-hal-2-1
+
+on boot
     start health-hal-2-1
+    setprop sys.usb.config adb
 
 on property:ro.boot.usbcontroller=*
     setprop sys.usb.controller ${ro.boot.usbcontroller}
@@ -59,145 +63,17 @@ on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
     export LD_LIBRARY_PATH /sbin:/vendor/lib64:/vendor/lib64/hw:/system/lib64:/system/lib64/hw
+    start boot-hal-1-1
 
-    #     # this is for OnePlus 7 Pro 5g stock rom flashing
-    symlink /dev/block/bootdevice/by-name/mdm_oem_stanvbk /dev/block/bootdevice/by-name/mdm_oem_stanvbk_a
-    symlink /dev/block/bootdevice/by-name/mdm_oem_stanvbk /dev/block/bootdevice/by-name/mdm_oem_stanvbk_b
-    symlink /dev/block/bootdevice/by-name/spunvm /dev/block/bootdevice/by-name/spunvm_a
-    symlink /dev/block/bootdevice/by-name/spunvm /dev/block/bootdevice/by-name/spunvm_b
-
-
-# on boot
-#     write /proc/touchpanel/gesture_enable 1
-
-# on fs
-#     wait /dev/block/platform/soc/${ro.boot.bootdevice}
-#     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
-#     
-    
-
-#     chmod 0660 /dev/qseecom
-#     chown system drmrpc /dev/qseecom
-#     chmod 0664 /dev/ion
-#     chown system system /dev/ion
-#     install_keyring
 
 on property:ro.crypto.type=file
     setprop ro.crypto.state encrypted
     setprop twrp.apex.loaded true
 
-# on early-fs
-#     start vold
 
-# on late-fs
-#     # Wait for keymaster
-#     exec_start wait_for_keymaster
-
-#     # Mount RW partitions which need run fsck
-#     mount_all /vendor/etc/fstab.qcom --late
-
-# service sbinqseecomd /system/bin/qseecomd
+# service vendor.keymaster-4-0 /system/bin/android.hardware.keymaster@4.0-service-qti
+# 	interface android.hardware.keymaster@4.0::IKeymasterDevice default
 #     user root
 #     group root
 #     disabled
 #     seclabel u:r:recovery:s0
-
-# service prepdecrypt /sbin/prepdecrypt.sh
-#     oneshot
-#     disabled
-#     user root
-#     group root
-#     seclabel u:r:recovery:s0
-
-# service hwservicemanager /system/bin/hwservicemanager
-#     user root
-#     group root
-#     disabled
-#     onrestart setprop hwservicemanager.ready false
-#     seclabel u:r:recovery:s0
-
-# service boot-1-0 /sbin/android.hardware.boot@1.0-service
-#     user root
-#     group root
-#     disabled
-#     seclabel u:r:recovery:s0
-
-# service servicemanager /system/bin/servicemanager
-#     user root
-#     group root readproc
-#     disabled
-#     seclabel u:r:recovery:s0
-
-# service keystore_auth /system/bin/keystore_auth
-#     oneshot
-#     user system
-#     group root
-#     disabled
-#     seclabel u:r:recovery:s0
-
-# keystore is started and stopped on demand by TWRP
-# service keystore /system/bin/keystore /tmp/misc/keystore
-#     user root
-#     group root drmrpc readproc
-#     disabled
-#     seclabel u:r:recovery:s0
-
-# service gatekeeper-1-0 /system/bin/android.hardware.gatekeeper@1.0-service-qti
-#     user root
-#     group root
-#     disabled
-#     seclabel u:r:recovery:s0
-
-service vendor.keymaster-4-0 /system/bin/android.hardware.keymaster@4.0-service-qti
-	interface android.hardware.keymaster@4.0::IKeymasterDevice default
-    user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0
-
-# service logd /system/bin/logd
-#     user root
-#     group root
-#     disabled
-#     seclabel u:r:recovery:s0
-
-# service time_daemon /sbin/time_daemon
-#     user root
-#     group root
-#     disabled
-#     seclabel u:r:recovery:s0
-
-# service patchfakepartitions-service /sbin/patchfakepartitions-service.sh
-#     user root
-#     group root
-#     disabled
-#     oneshot
-#     seclabel u:r:recovery:s0
-
-# This helps fix ld.config.txt errors from the linker on Android 8.1+
-# service ldconfigtxt /system/bin/touch /sbin/ld.config.txt
-#     oneshot
-#     seclabel u:r:recovery:s0
-
-# on init
-#     start logd
-#     start hwservicemanager
-#     start boot-1-0
-#     start prepdecrypt
-#     start time_daemon
-#     setprop crypto.ready 1
-
-# on property:crypto.ready=0
-#     stop sbinqseecomd
-#     stop keymaster-4-0
-#     stop gatekeeper-1-0
-#     stop servicemanager
-
-# on property:crypto.ready=1
-#     start sbinqseecomd
-
-#on property:vendor.sys.listeners.registered=true
-     #start keymaster-4-0
-     #start gatekeeper-1-0
-#     start servicemanager
-#     restart time_daemon
