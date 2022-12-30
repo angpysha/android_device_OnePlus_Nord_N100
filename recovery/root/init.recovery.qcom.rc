@@ -62,6 +62,7 @@ on init
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
+    symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/platform/msm_sdcc.1
     export LD_LIBRARY_PATH /sbin:/vendor/lib64:/vendor/lib64/hw:/system/lib64:/system/lib64/hw
     start boot-hal-1-1
 
