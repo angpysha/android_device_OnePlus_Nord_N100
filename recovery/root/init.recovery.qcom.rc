@@ -47,8 +47,9 @@ import /init.recovery.qcom_decrypt.fbe.rc
 #     start health-hal-2-1
 
 on boot
-    start health-hal-2-1
-    setprop sys.usb.config adb
+    #start health-hal-2-1
+    setprop sys.usb.config mtp,adb
+    setprop ro.adb.secure 0
 
 on property:ro.boot.usbcontroller=*
     setprop sys.usb.controller ${ro.boot.usbcontroller}
@@ -58,18 +59,77 @@ on property:ro.boot.usbcontroller=*
 on init
     setprop prepdecrypt.loglevel 2
     setprop prepdecrypt.setpatch true
+    setprop sys.usb.configfs 1
+    mkdir /mnt/vendor/op2
+
+    # Mount binderfs
+    mkdir /dev/binderfs
+    mount binder binder /dev/binderfs stats=global
+    chmod 0755 /dev/binderfs
+
+    symlink /dev/binderfs/binder /dev/binder
+    symlink /dev/binderfs/hwbinder /dev/hwbinder
+    symlink /dev/binderfs/vndbinder /dev/vndbinder
+
+    chmod 0666 /dev/binderfs/hwbinder
+    chmod 0666 /dev/binderfs/binder
+    chmod 0666 /dev/binderfs/vndbinder
 
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
-    symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/platform/msm_sdcc.1
+    #symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/platform/msm_sdcc.1
     export LD_LIBRARY_PATH /sbin:/vendor/lib64:/vendor/lib64/hw:/system/lib64:/system/lib64/hw
     start boot-hal-1-1
 
+on fs
+    write /dev/event-log-tags "# content owned by logd
+"
+    chown logd logd /dev/event-log-tags
+    chmod 0644 /dev/event-log-tags
+    chown logd logd /system/bin/logd
+    mount ext4 /dev/block/bootdevice/by-name/op2 /mnt/vendor/op2 noatime nosuid nodev barrier=1
 
-on property:ro.crypto.type=file
-    setprop ro.crypto.state encrypted
-    setprop twrp.apex.loaded true
+    chmod 0666 /dev/qg
+    chmod 0666 /dev/qg_battery
+
+# Mount filesystems and start core system services.
+# on late-init
+#     trigger early-fs
+#     trigger fs
+#     trigger post-fs
+#     trigger post-fs-data
+
+#     # Remove a file to wake up anything waiting for firmware
+#     trigger firmware_mounts_complete
+
+#     trigger early-boot
+#     trigger boot
+
+service boot-hal-1-1 /system/bin/android.hardware.boot@1.1-service
+     interface android.hardware.boot@1.0::IBootControl default
+     interface android.hardware.boot@1.1::IBootControl default
+     disabled
+     seclabel u:r:recovery:s0
+
+# service keymaster-3-0 /system/bin/android.hardware.keymaster@3.0-service-qti
+#     disabled
+#     seclabel u:r:recovery:s0
+
+# service keymaster-4-0 /system/bin/android.hardware.keymaster@4.0-service-qti
+#     disabled
+#     seclabel u:r:recovery:s0
+
+# service gatekeeper-1-0 /system/bin/android.hardware.gatekeeper@1.0-service-qti
+#     disabled
+#     seclabel u:r:recovery:s0
+
+# service qseecomd /system/bin/qseecomd
+#     disabled
+#     seclabel u:r:recovery:s0
+# on property:ro.crypto.type=file
+#     setprop ro.crypto.state encrypted
+#     setprop twrp.apex.loaded true
 
 
 # service vendor.keymaster-4-0 /system/bin/android.hardware.keymaster@4.0-service-qti
