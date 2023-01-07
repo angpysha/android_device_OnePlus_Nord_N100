@@ -98,10 +98,10 @@ PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
     vendor/qcom/opensource/commonsys-intf/display
 
-# Blacklist
-PRODUCT_SYSTEM_PROPERTY_BLACKLIST += \
-    ro.bootimage.build.date.utc \
-    ro.build.date.utc
+# # Blacklist
+# PRODUCT_SYSTEM_PROPERTY_BLACKLIST += \
+#     ro.bootimage.build.date.utc \
+#     ro.build.date.utc
 
 PRODUCT_COPY_FILES += \
     $(OUT_DIR)/target/product/OnePlusN100/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so 
