@@ -66,11 +66,12 @@ TARGET_USES_QCOM_BSP := true
 
 # File systems
 BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_BOOTIMAGE_PARTITION_SIZE := 100663296
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 100663296 # This is the maximum known partition size, but it can be higher, so we just omit it
-BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
-BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
+# BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
+# BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
-TARGET_USERIMAGES_USE_EXT4 := false
+TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
 # A/B
@@ -137,23 +138,22 @@ BOARD_USES_PRODUCTIMAGE := true
 
 # Dynamic/Logical Partitions
 BOARD_SUPER_PARTITION_SIZE := 10737418240
-BOARD_ONEPLUS_DYNAMIC_PARTITIONS_PARTITION_LIST := odm product system system_ext vendor
-BOARD_ONEPLUS_DYNAMIC_PARTITIONS_SIZE := 5368709120
-BOARD_SUPER_PARTITION_GROUPS := oneplus_dynamic_partitions
-#BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
-#BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 10737418240
+#BOARD_ONEPLUS_DYNAMIC_PARTITIONS_PARTITION_LIST := odm product system system_ext vendor
+#BOARD_ONEPLUS_DYNAMIC_PARTITIONS_SIZE := 5368709120
+#BOARD_SUPER_PARTITION_GROUPS := oneplus_dynamic_partitions
+BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
+BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 5243678720
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 100663296
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 48062869504
 # TODO: fix this...
-#BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := \
-#    system \
-#    system_ext \
-#    vendor \
-#    product \
-#    odm
+BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := \
+   system \
+   system_ext \
+   vendor \
+   product 
 
 # Partitions (listed in the file) to be wiped under recovery.
-TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery/root/system/etc/recovery.wipe
+TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
 
 # Workaround for error copying vendor files to recovery ramdisk
 BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
@@ -165,7 +165,7 @@ TARGET_COPY_OUT_VENDOR := vendor
 RECOVERY_SDCARD_ON_DATA := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_SUPPRESS_SECURE_ERASE := true
-BOARD_USES_RECOVERY_AS_BOOT := false
+#BOARD_USES_RECOVERY_AS_BOOT := false
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := false
 TARGET_NO_RECOVERY := false
 TARGET_NO_KERNEL := false
@@ -184,7 +184,7 @@ TARGET_RECOVERY_DEVICE_MODULES += \
 	ashmemd_aidl_interface-cpp \
     libashmemd_client
 
-TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/system/etc/recovery.fstab
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
 
 # Use mke2fs to create ext4 images
 TARGET_USES_MKE2FS := true

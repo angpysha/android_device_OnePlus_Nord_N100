@@ -17,24 +17,24 @@
 #
 
 # Inherit from those products. Most specific first.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
-$(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/embedded.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
+#$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
+#$(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/embedded.mk)
+#$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+#$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
-# Inherit from OnePlusN100 device
-$(call inherit-product, device/oneplus/OnePlusN100/device.mk)
 
 # Inherit some common Omni stuff.
 $(call inherit-product, vendor/twrp/config/common.mk)
 #$(call inherit-product, vendor/omni/config/gsm.mk)
 
-PRODUCT_RELEASE_NAME := billie2
+PRODUCT_RELEASE_NAME := OnePlusN100
 
 # Device identifier. This must come after all inclusions
-PRODUCT_DEVICE := OnePlusN100
+PRODUCT_DEVICE := $(PRODUCT_RELEASE_NAME)
 PRODUCT_NAME := twrp_OnePlusN100
-PRODUCT_BRAND := OnePlus
-PRODUCT_MODEL := OnePlus
+PRODUCT_BRAND := oneplus
+PRODUCT_MODEL := BE2013
 PRODUCT_MANUFACTURER := oneplus
-PRODUCT_RELEASE_NAME := OnePlus OnePlus
+
+# Inherit from OnePlusN100 device
+$(call inherit-product, device/oneplus/OnePlusN100/device.mk)

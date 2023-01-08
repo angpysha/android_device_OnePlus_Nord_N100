@@ -26,7 +26,7 @@
 #
 
 import /init.recovery.qcom_decrypt.rc
-import /init.recovery.qcom_decrypt.fbe.rc
+#import /init.recovery.qcom_decrypt.fbe.rc
 
 # service boot-1-0 /system/bin/android.hardware.boot@1.0-service
 #     user root
@@ -156,11 +156,11 @@ on property:twrp.modules.loaded=true
     setprop sys.usb.config mtp,adb
 
 
-service boot-hal-1-1 /system/bin/android.hardware.boot@1.1-service
-     interface android.hardware.boot@1.0::IBootControl default
-     interface android.hardware.boot@1.1::IBootControl default
-     disabled
-     seclabel u:r:recovery:s0
+# service boot-hal-1-1 /system/bin/android.hardware.boot@1.1-service
+#      interface android.hardware.boot@1.0::IBootControl default
+#      interface android.hardware.boot@1.1::IBootControl default
+#      disabled
+#      seclabel u:r:recovery:s0
 
 # service keymaster-3-0 /system/bin/android.hardware.keymaster@3.0-service-qti
 #     disabled
