@@ -131,19 +131,6 @@ on fs
     chmod 0666 /dev/qg
     chmod 0666 /dev/qg_battery
 
-# Mount filesystems and start core system services.
-# on late-init
-#     trigger early-fs
-#     trigger fs
-#     trigger post-fs
-#     trigger post-fs-data
-
-#     # Remove a file to wake up anything waiting for firmware
-#     trigger firmware_mounts_complete
-
-#     trigger early-boot
-#     trigger boot
-
 on boot
     start variant-script
 
@@ -154,37 +141,3 @@ on property:twrp.modules.loaded=true
     wait /sys/class/power_supply/battery
     start health-hal-2-1
     setprop sys.usb.config mtp,adb
-
-
-# service boot-hal-1-1 /system/bin/android.hardware.boot@1.1-service
-#      interface android.hardware.boot@1.0::IBootControl default
-#      interface android.hardware.boot@1.1::IBootControl default
-#      disabled
-#      seclabel u:r:recovery:s0
-
-# service keymaster-3-0 /system/bin/android.hardware.keymaster@3.0-service-qti
-#     disabled
-#     seclabel u:r:recovery:s0
-
-# service keymaster-4-0 /system/bin/android.hardware.keymaster@4.0-service-qti
-#     disabled
-#     seclabel u:r:recovery:s0
-
-# service gatekeeper-1-0 /system/bin/android.hardware.gatekeeper@1.0-service-qti
-#     disabled
-#     seclabel u:r:recovery:s0
-
-# service qseecomd /system/bin/qseecomd
-#     disabled
-#     seclabel u:r:recovery:s0
-# on property:ro.crypto.type=file
-#     setprop ro.crypto.state encrypted
-#     setprop twrp.apex.loaded true
-
-
-# service vendor.keymaster-4-0 /system/bin/android.hardware.keymaster@4.0-service-qti
-# 	interface android.hardware.keymaster@4.0::IKeymasterDevice default
-#     user root
-#     group root
-#     disabled
-#     seclabel u:r:recovery:s0

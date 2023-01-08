@@ -28,8 +28,6 @@ PRODUCT_PLATFORM := bengal
 LOCAL_PATH := device/oneplus/OnePlusN100
 
 AB_OTA_UPDATER := true
-#PRODUCT_SHIPPING_API_LEVEL := 30
-#PRODUCT_SHIPPING_API_LEVEL := 29
 # A/B
 AB_OTA_PARTITIONS += \
 	boot \
@@ -61,8 +59,6 @@ PRODUCT_PACKAGES += \
     update_verifier \
     update_engine_sideload
 
- #   cppreopts.sh \
-
 # tell update_engine to not change dynamic partition table during updates
 # needed since our qti_dynamic_partitions does not include
 # vendor and odm and we also dont want to AB update them
@@ -76,10 +72,6 @@ PRODUCT_PACKAGES += \
     qcom_decrypt \
     qcom_decrypt_fbe
 
-# PRODUCT_PACKAGES += \
-#     bootctl.bengal \
-#     update_engine_sideload 
-
 # Recovery Modules
 PRODUCT_HOST_PACKAGES += \
     libandroidicu
@@ -90,18 +82,9 @@ PRODUCT_PACKAGES += \
     fastbootd \
     resetprop
 
-# # Soong namespaces
-# PRODUCT_SOONG_NAMESPACES += \
-#     $(DEVICE_PATH)
-
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
-
-# # Blacklist
-# PRODUCT_SYSTEM_PROPERTY_BLACKLIST += \
-#     ro.bootimage.build.date.utc \
-#     ro.build.date.utc
 
 PRODUCT_COPY_FILES += \
     $(OUT_DIR)/target/product/OnePlusN100/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so 
@@ -109,7 +92,3 @@ PRODUCT_COPY_FILES += \
 # tzdata
 PRODUCT_PACKAGES_ENG += \
 	tzdata_twrp
-
-# # OEM otacert
-# PRODUCT_EXTRA_RECOVERY_KEYS += \
-#     $(LOCAL_PATH)/security/ota
