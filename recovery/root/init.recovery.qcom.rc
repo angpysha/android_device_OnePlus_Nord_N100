@@ -46,15 +46,50 @@ import /init.recovery.qcom_decrypt.fbe.rc
 #     start boot-1-1
 #     start health-hal-2-1
 
+service mount-dynamic-rw /system/bin/mount-dynamic-rw.sh
+    user root
+    group root
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
+
+service unified-script /system/bin/unified-script.sh
+    user root
+    group root
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
+
+service make-fake-partitions-service /system/bin/make-fake-partitions-service.sh reserve
+    user root
+    group root
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
+
 on boot
-    #start health-hal-2-1
-    setprop sys.usb.config mtp,adb
-    setprop ro.adb.secure 0
+    setprop sys.usb.config adb
+
+    #chmod 0777 /system/bin/mount-dynamic-rw.sh
+    #start mount-dynamic-rw
+    chmod 0777 /system/bin/unified-script.sh
+    chmod 0777 /system/bin/patchfakepartitions-service.sh
+    
+    start patchfakepartitions-service
+    start unified-script
+    chmod 0777 /system/bin/make-fake-partitions-service.sh
+    start make-fake-partitions-service
 
 on property:ro.boot.usbcontroller=*
     setprop sys.usb.controller ${ro.boot.usbcontroller}
     write /sys/class/udc/${ro.boot.usbcontroller}/device/../mode peripheral
 
+on init
+    write /sys/class/backlight/panel0-backlight/brightness 200
+
+    # Create location for fs_mgr to store abbreviated output from filesystem
+    # checker programs.
+    mkdir /dev/fscklogs 0770 root system
 
 on init
     setprop prepdecrypt.loglevel 2
@@ -62,25 +97,28 @@ on init
     setprop sys.usb.configfs 1
     mkdir /mnt/vendor/op2
 
-    # Mount binderfs
-    mkdir /dev/binderfs
-    mount binder binder /dev/binderfs stats=global
-    chmod 0755 /dev/binderfs
-
-    symlink /dev/binderfs/binder /dev/binder
-    symlink /dev/binderfs/hwbinder /dev/hwbinder
-    symlink /dev/binderfs/vndbinder /dev/vndbinder
-
-    chmod 0666 /dev/binderfs/hwbinder
-    chmod 0666 /dev/binderfs/binder
-    chmod 0666 /dev/binderfs/vndbinder
-
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
     #symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/platform/msm_sdcc.1
     export LD_LIBRARY_PATH /sbin:/vendor/lib64:/vendor/lib64/hw:/system/lib64:/system/lib64/hw
-    start boot-hal-1-1
+    
+    # Mount firmware
+    mkdir /firmware
+    mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /firmware ro
+    # This must be under on fs, otherwise update_engine wont map the partitions and exit installation
+    symlink /dev/block/bootdevice/by-name/mdm_oem_stanvbk /dev/block/bootdevice/by-name/mdm_oem_stanvbk_a
+    symlink /dev/block/bootdevice/by-name/mdm_oem_stanvbk /dev/block/bootdevice/by-name/mdm_oem_stanvbk_b
+    symlink /dev/block/bootdevice/by-name/mdm_oem_dycnvbk /dev/block/bootdevice/by-name/mdm_oem_dycnvbk_a
+    symlink /dev/block/bootdevice/by-name/mdm_oem_dycnvbk /dev/block/bootdevice/by-name/mdm_oem_dycnvbk_b
+    symlink /dev/block/bootdevice/by-name/spunvm /dev/block/bootdevice/by-name/spunvm_a
+    symlink /dev/block/bootdevice/by-name/spunvm /dev/block/bootdevice/by-name/spunvm_b
+
+    # Set fscklog permission
+    chown root system /dev/fscklogs/log
+    chmod 0770 /dev/fscklogs/log
+
+    #start boot-hal-1-1
 
 on fs
     write /dev/event-log-tags "# content owned by logd
@@ -105,6 +143,18 @@ on fs
 
 #     trigger early-boot
 #     trigger boot
+
+on boot
+    start variant-script
+
+on property:twrp.modules.loaded=true
+    # Load ADSP firmware for PMIC
+    wait /sys/kernel/boot_adsp/boot
+    write /sys/kernel/boot_adsp/boot 1
+    wait /sys/class/power_supply/battery
+    start health-hal-2-1
+    setprop sys.usb.config mtp,adb
+
 
 service boot-hal-1-1 /system/bin/android.hardware.boot@1.1-service
      interface android.hardware.boot@1.0::IBootControl default

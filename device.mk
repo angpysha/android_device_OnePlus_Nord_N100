@@ -28,20 +28,16 @@ PRODUCT_PLATFORM := bengal
 LOCAL_PATH := device/oneplus/OnePlusN100
 
 AB_OTA_UPDATER := true
-PRODUCT_SHIPPING_API_LEVEL := 30
+#PRODUCT_SHIPPING_API_LEVEL := 30
 #PRODUCT_SHIPPING_API_LEVEL := 29
 # A/B
 AB_OTA_PARTITIONS += \
-    boot \
-    dtbo \
-    odm \
-    product \
-    recovery \
-    system \
-    system_ext \
-    vbmeta \
-    vbmeta_system \
-    vendor
+	boot \
+	system \
+	system_ext \
+	vendor \
+	vbmeta \
+	dtbo
 
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
@@ -51,6 +47,11 @@ AB_OTA_POSTINSTALL_CONFIG += \
 
 # Boot control HAL
 PRODUCT_PACKAGES += \
+    android.hardware.boot@1.0-impl \
+	android.hardware.boot@1.0-service \
+	android.hardware.boot@1.0-impl-wrapper.recovery \
+	android.hardware.boot@1.0-impl-wrapper \
+	android.hardware.boot@1.0-impl.recovery \
     android.hardware.boot@1.1-impl-qti.recovery \
     bootctrl.$(PRODUCT_PLATFORM).recovery
 
@@ -66,7 +67,7 @@ PRODUCT_PACKAGES += \
 # tell update_engine to not change dynamic partition table during updates
 # needed since our qti_dynamic_partitions does not include
 # vendor and odm and we also dont want to AB update them
-TARGET_ENFORCE_AB_OTA_PARTITION_LIST := true
+#TARGET_ENFORCE_AB_OTA_PARTITION_LIST := true
 
 # Dynamic partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
@@ -87,7 +88,8 @@ PRODUCT_HOST_PACKAGES += \
 # fastbootd
 PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.0-impl-mock \
-    fastbootd 
+    fastbootd \
+    resetprop
 
 # # Soong namespaces
 # PRODUCT_SOONG_NAMESPACES += \
@@ -106,7 +108,9 @@ PRODUCT_SOONG_NAMESPACES += \
 PRODUCT_COPY_FILES += \
     $(OUT_DIR)/target/product/OnePlusN100/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so 
     
-
+# tzdata
+PRODUCT_PACKAGES_ENG += \
+	tzdata_twrp
 
 # # OEM otacert
 # PRODUCT_EXTRA_RECOVERY_KEYS += \

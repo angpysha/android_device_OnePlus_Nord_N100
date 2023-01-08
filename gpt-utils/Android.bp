@@ -14,23 +14,8 @@
 // limitations under the License.
 //
 
-
 cc_library {
-    name: "libgptutils.oneplus_bengal",
-    vendor: true,
-    recovery_available: true,
-    shared_libs: [
-        "libcutils",
-        "liblog",
-        "libz",
-    ],
-    cflags: [
-        "-Wall",
-        "-Werror",
-    ],
-    srcs: [
-        "gpt-utils.cpp",
-    ],
-    owner: "qti",
-    export_include_dirs: ["."],
+    name: "libgptutils",
+    defaults: ["libgptutils_defaults"],
+    vendor_available: true,
 }
