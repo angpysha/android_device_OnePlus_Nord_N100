@@ -24,6 +24,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
 
 # define hardware platform
 PRODUCT_PLATFORM := bengal
+PRODUCT_SHIPPING_API_LEVEL := 29
 
 LOCAL_PATH := device/oneplus/OnePlusN100
 
@@ -86,8 +87,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
 
-PRODUCT_COPY_FILES += \
-    $(OUT_DIR)/target/product/OnePlusN100/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so 
+# PRODUCT_COPY_FILES += \
+#     $(OUT_DIR)/target/product/OnePlusN100/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so 
     
 # tzdata
 PRODUCT_PACKAGES_ENG += \
