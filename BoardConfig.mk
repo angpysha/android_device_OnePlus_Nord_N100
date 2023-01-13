@@ -249,6 +249,7 @@ RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/strace
 #Add options to system and vendor props
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 
+DEVICE_MANIFEST_FILE = $(DEVICE_PATH)/manifest.xml
 # For local builds only
 #
 # TWRP zip installer

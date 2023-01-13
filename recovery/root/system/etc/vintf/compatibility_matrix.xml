@@ -1,0 +1,22 @@
+<compatibility-matrix version="2.0" type="device">
+    <hal format="aidl" optional="true">
+        <name>android.system.keystore2</name>
+        <version>1</version>
+        <interface>
+            <name>IKeystoreService</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <vendor-ndk>
+        <version>32</version>
+    </vendor-ndk>
+    <vendor-ndk>
+        <version>31</version>
+    </vendor-ndk>
+    <vendor-ndk>
+        <version>30</version>
+    </vendor-ndk>
+    <system-sdk>
+        <version>29</version>
+    </system-sdk>
+</compatibility-matrix>

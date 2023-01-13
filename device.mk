@@ -24,7 +24,10 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
 
 # define hardware platform
 PRODUCT_PLATFORM := bengal
-PRODUCT_SHIPPING_API_LEVEL := 29
+#PRODUCT_SHIPPING_API_LEVEL := 29
+
+BUILD_BROKEN_DUP_RULES := true
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
 LOCAL_PATH := device/oneplus/OnePlusN100
 
